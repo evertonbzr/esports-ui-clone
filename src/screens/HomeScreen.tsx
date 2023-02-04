@@ -1,4 +1,4 @@
-import { ScrollView, useWindowDimensions, View } from "react-native";
+import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import { SceneMap, TabView } from "react-native-tab-view";
 
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -13,7 +13,11 @@ import { grayBg } from "../constants/colors";
 const Tab = createMaterialTopTabNavigator();
 
 const Exe = () => {
-  return <View className="flex-1"></View>;
+  return (
+    <View className="flex-1 items-center justify-center">
+      <Text className="text-white">Olá</Text>
+    </View>
+  );
 };
 
 const renderScene = SceneMap({
@@ -50,6 +54,7 @@ export const HomeScreen: React.FC = () => {
           lazy
           navigationState={{ index, routes }}
           renderScene={renderScene}
+          swipeEnabled={false}
           onIndexChange={setIndex}
           initialLayout={{ width: layout.width }}
           style={{ height: 100 }}

@@ -1,4 +1,10 @@
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, TouchableOpacity, View } from "react-native";
+import Animated, {
+  interpolateColor,
+  useAnimatedStyle,
+  useDerivedValue,
+  withTiming,
+} from "react-native-reanimated";
 import { NavigationState, SceneRendererProps } from "react-native-tab-view";
 
 import classNames from "classnames";
@@ -12,13 +18,28 @@ const TabItem = ({
   active?: boolean;
   onPress: () => void;
 }) => {
-  const textClass = classNames("font-bold text-[#5F666E]", {
-    "text-white": active,
+  const isActive = useDerivedValue(() => {
+    return active
+      ? withTiming(1, { duration: 100 })
+      : withTiming(0, { duration: 100 });
   });
+
+  const textColor = useAnimatedStyle(() => {
+    const color = interpolateColor(isActive.value, [0, 1], ["#5F666E", "#FFF"]);
+
+    return {
+      color,
+    };
+  });
+
+  const textClass = classNames("font-bold");
+
   return (
     <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
       <View className=" items-center justify-center h-full px-3">
-        <Text className={textClass}>{title}</Text>
+        <Animated.Text className={textClass} style={textColor}>
+          {title}
+        </Animated.Text>
       </View>
     </TouchableOpacity>
   );
@@ -36,7 +57,9 @@ export const TabHomeSession: React.FC<
     navigationState: { routes, index },
     jumpTo,
   } = props;
+
   console.log(props);
+
   return (
     <View className="h-14 bg-[#1C1F24]">
       <ScrollView
