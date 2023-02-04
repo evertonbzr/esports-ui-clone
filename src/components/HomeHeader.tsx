@@ -24,7 +24,7 @@ export const HomeHeader: React.FC = () => {
         <Image
           className="w-full h-full rounded-full"
           source={{
-            uri: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/d7/d709ef67fbdbe91858b448e3c3a797f1663c9f10_full.jpg",
+            uri: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/7d/7db937d95666efe34c3662b4d6c1214688e6f2db_full.jpg",
           }}
         />
       </View>

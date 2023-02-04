@@ -1,13 +1,13 @@
-import { ScrollView, Text, useWindowDimensions, View } from "react-native";
 import { SceneMap, TabView } from "react-native-tab-view";
+import { ScrollView, Text, View, useWindowDimensions } from "react-native";
 
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import classNames from "classnames";
+import { HomeHeader } from "../components/HomeHeader";
+import { PostsList } from "../components/Posts";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { HomeHeader } from "../components/HomeHeader";
-import { StoriesSession } from "../components/StoriesSession";
 import { TabHomeSession } from "../components/TabHomeSession";
+import classNames from "classnames";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { grayBg } from "../constants/colors";
 
 const Tab = createMaterialTopTabNavigator();
@@ -21,10 +21,10 @@ const Exe = () => {
 };
 
 const renderScene = SceneMap({
-  all: Exe,
-  cs: Exe,
-  lol: Exe,
-  dota: Exe,
+  all: PostsList,
+  cs: PostsList,
+  lol: PostsList,
+  dota: PostsList,
 });
 export const HomeScreen: React.FC = () => {
   const dividerClasses = classNames("w-full h-0.5", grayBg);
@@ -49,16 +49,14 @@ export const HomeScreen: React.FC = () => {
           backgroundColor: "#24272C",
         }}
       >
-        <StoriesSession />
+        {/* <StoriesSession /> */}
         <TabView
           lazy
           navigationState={{ index, routes }}
           renderScene={renderScene}
-          swipeEnabled={false}
+          swipeEnabled={true}
           onIndexChange={setIndex}
           initialLayout={{ width: layout.width }}
-          style={{ height: 100 }}
-          sceneContainerStyle={{ height: 100 }}
           renderTabBar={(props) => <TabHomeSession {...props} />}
         />
       </ScrollView>
