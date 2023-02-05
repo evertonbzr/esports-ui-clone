@@ -10,14 +10,7 @@ import Animated, {
 } from "react-native-reanimated";
 import { NavigationState, SceneRendererProps } from "react-native-tab-view";
 import { TouchableOpacity, View } from "react-native";
-import {
-  createRef,
-  forwardRef,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 
 import classNames from "classnames";
 
@@ -109,13 +102,14 @@ const Indicator = ({ measures, index }: { measures: any[]; index: number }) => {
 };
 
 export const TabHomeSession: React.FC<
-  SceneRendererProps & {
-    navigationState: NavigationState<{
-      key: string;
-      title: string;
-    }>;
-  }
-> = (props) => {
+  { fixed?: boolean } & SceneRendererProps & {
+      navigationState: NavigationState<{
+        key: string;
+        title: string;
+        ref: React.RefObject<View>;
+      }>;
+    }
+> = ({ fixed = false, ...props }) => {
   const containerRef = useRef<any>();
   const [measures, setMeasures] = useState<any[]>([]);
   const scrollX = useSharedValue(0);
@@ -126,14 +120,9 @@ export const TabHomeSession: React.FC<
     position,
   } = props;
 
-  const mappedRoutes = useMemo(() => {
-    return routes.map((route) => ({ ...route, ref: createRef<View>() }));
-  }, [routes]);
-
   useEffect(() => {
-    console.log("entrou ");
     const m: any[] = [];
-    mappedRoutes.forEach((item) => {
+    routes.forEach((item) => {
       item.ref.current?.measureLayout(
         containerRef.current,
         (x, y, width, height) => {
@@ -144,16 +133,18 @@ export const TabHomeSession: React.FC<
             height,
           });
 
-          if (m.length === mappedRoutes.length) {
+          if (m.length === routes.length) {
             setMeasures(m);
           }
         },
         () => {}
       );
     });
-  }, [mappedRoutes, props]);
+  }, []);
 
-  useEffect(() => {}, [index]);
+  useEffect(() => {
+    console.log(props);
+  }, [props]);
 
   const scrollHandler = useAnimatedScrollHandler((event) => {
     scrollX.value = event.contentOffset.x;
@@ -161,32 +152,55 @@ export const TabHomeSession: React.FC<
 
   return (
     <View className="h-14 bg-[#1C1F24]">
-      <Animated.ScrollView
-        ref={containerRef}
-        horizontal
-        onScroll={scrollHandler}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{
-          position: "relative",
-        }}
-      >
-        {mappedRoutes.map((el, i) => (
-          <TabItem
-            ref={el.ref}
-            key={el.key}
-            title={el.title}
-            active={i === index}
-            onPress={() => {
-              jumpTo(el.key);
-            }}
-            test={
-              i === 0 ? "ml-3" : i + 1 === routes.length ? "mr-3" : undefined
-            }
-          />
-        ))}
-        {measures.length > 0 && <Indicator measures={measures} index={index} />}
-        <View className="h-0.5 bg-[#393D46] w-full absolute bottom-0" />
-      </Animated.ScrollView>
+      {!fixed && (
+        <Animated.ScrollView
+          ref={containerRef}
+          horizontal
+          onScroll={scrollHandler}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            position: "relative",
+          }}
+        >
+          {routes.map((el, i) => (
+            <TabItem
+              ref={el.ref}
+              key={el.key}
+              title={el.title}
+              active={i === index}
+              onPress={() => {
+                jumpTo(el.key);
+              }}
+              test={
+                i === 0 ? "ml-3" : i + 1 === routes.length ? "mr-3" : undefined
+              }
+            />
+          ))}
+          {measures.length > 0 && (
+            <Indicator measures={measures} index={index} />
+          )}
+          <View className="h-0.5 bg-[#393D46] w-full absolute bottom-0" />
+        </Animated.ScrollView>
+      )}
+      {fixed && (
+        <View ref={containerRef} className="flex-row justify-evenly">
+          {routes.map((el, i) => (
+            <TabItem
+              ref={el.ref}
+              key={el.key}
+              title={el.title}
+              active={i === index}
+              onPress={() => {
+                jumpTo(el.key);
+              }}
+            />
+          ))}
+          {measures.length > 0 && (
+            <Indicator measures={measures} index={index} />
+          )}
+          <View className="h-0.5 bg-[#393D46] w-full absolute bottom-0" />
+        </View>
+      )}
     </View>
   );
 };

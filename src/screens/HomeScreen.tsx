@@ -1,10 +1,11 @@
+import React, { createRef } from "react";
 import { SceneMap, TabView } from "react-native-tab-view";
 import { ScrollView, Text, View, useWindowDimensions } from "react-native";
 
 import { HomeHeader } from "../components/HomeHeader";
 import { PostsList } from "../components/Posts";
-import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StoriesSession } from "../components/StoriesSession";
 import { TabHomeSession } from "../components/TabHomeSession";
 import classNames from "classnames";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -33,10 +34,10 @@ export const HomeScreen: React.FC = () => {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: "all", title: "All games" },
-    { key: "cs", title: "Counter Strike" },
-    { key: "lol", title: "League of Legends" },
-    { key: "dota", title: "Dota 2" },
+    { key: "all", title: "Tudo", ref: createRef<View>() },
+    { key: "cs", title: "Jogadas em destaque", ref: createRef<View>() },
+    { key: "lol", title: "Jogadores em destaque", ref: createRef<View>() },
+    { key: "dota", title: "Seguindo", ref: createRef<View>() },
   ]);
 
   return (
@@ -49,7 +50,7 @@ export const HomeScreen: React.FC = () => {
           backgroundColor: "#24272C",
         }}
       >
-        {/* <StoriesSession /> */}
+        <StoriesSession />
         <TabView
           lazy
           navigationState={{ index, routes }}

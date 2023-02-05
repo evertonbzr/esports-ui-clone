@@ -16,8 +16,10 @@ import { useEffect, useState } from "react";
 import classNames from "classnames";
 import colors from "tailwindcss/colors";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 
 export const PostCard = () => {
+  const navigation = useNavigation<any>();
   const avatar = classNames("w-14 h-14 bg-slate-500 rounded-full border-2 ", {
     "border-green-600": true,
   });
@@ -35,7 +37,10 @@ export const PostCard = () => {
               />
             </View>
           </View>
-          <TouchableOpacity activeOpacity={0.9}>
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate("Profile")}
+          >
             <View className="ml-2">
               <Text className="font-bold text-white">Everton Fernandes</Text>
               <Text className="font-bold text-[#5F666E]">Counter Strike</Text>

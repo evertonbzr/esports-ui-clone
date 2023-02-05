@@ -1,18 +1,25 @@
 import * as React from "react";
 
-import { Text, View } from "react-native";
-
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { BottomTabs } from "../components/BottomTabs";
 import { HomeScreen } from "../screens/HomeScreen";
+import { Profile } from "../screens/Profile";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-function SettingsScreen() {
+const Stack = createNativeStackNavigator();
+
+const HomeStack = () => {
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Settings!</Text>
-    </View>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="Init" component={HomeScreen} />
+      <Stack.Screen name="Profile" component={Profile} />
+    </Stack.Navigator>
   );
-}
+};
 
 const Tab = createBottomTabNavigator();
 
@@ -24,8 +31,8 @@ export default function HomeRoutes() {
       }}
       tabBar={(props) => <BottomTabs {...props} />}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Profile" component={SettingsScreen} />
+      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="Settings" component={Profile} />
     </Tab.Navigator>
   );
 }

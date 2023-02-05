@@ -16,7 +16,7 @@ const Storie = ({ hasStory = true }: { hasStory?: boolean }) => {
       <Image
         className="w-full h-full rounded-full"
         source={{
-          uri: "https://i.pravatar.cc/300",
+          uri: "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/avatars/7d/7db937d95666efe34c3662b4d6c1214688e6f2db_full.jpg",
         }}
       />
     </View>
