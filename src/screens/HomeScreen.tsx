@@ -34,10 +34,10 @@ export const HomeScreen: React.FC = () => {
 
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    { key: "all", title: "Tudo", ref: createRef<View>() },
-    { key: "cs", title: "Jogadas em destaque", ref: createRef<View>() },
-    { key: "lol", title: "Jogadores em destaque", ref: createRef<View>() },
-    { key: "dota", title: "Seguindo", ref: createRef<View>() },
+    { key: "all", title: "All", ref: createRef<View>() },
+    { key: "cs", title: "Counter Strike", ref: createRef<View>() },
+    { key: "lol", title: "League of Legends", ref: createRef<View>() },
+    { key: "dota", title: "Dota 2", ref: createRef<View>() },
   ]);
 
   return (
